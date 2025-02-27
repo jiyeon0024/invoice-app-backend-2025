@@ -1,0 +1,23 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: invoice-app-backend
+    environment:
+      POSTGRES_USER: jiyeon
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: invoice_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - overlay
+    ports:
+      - "5430:5432" # 기본 PostgreSQL 포트
+    command: postgres -p 5432 # 포트 매핑을 위한 명령어
+
+volumes:
+  pgdata:
+
+networks:
+  overlay:
+    driver: bridge

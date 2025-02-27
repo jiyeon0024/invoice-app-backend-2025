@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "es5"],
+    "target": "es6", // es6로 변경
+    "typeRoots": ["node_modules/@types", "src/types"], // `src/types` 디렉토리 추가
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts"]
+}
