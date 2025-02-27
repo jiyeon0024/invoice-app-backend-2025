@@ -3,7 +3,7 @@ import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import CircularJSON from "circular-json";
 import cors from "cors";
-
+import "dotenv/config";
 import { AppDataSource } from "./data-source";
 import { Routes } from "./routes";
 import { authenticateToken } from "./middlewares/authenticateToken";
@@ -55,7 +55,7 @@ AppDataSource.initialize()
     });
 
     // start express server
-    app.listen(8000);
+    app.listen(process.env.PORT);
     console.log(
       "Express server has started on port 8000. Open http://localhost:8000/users to see results"
     );
