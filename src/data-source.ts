@@ -15,6 +15,7 @@ export const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
+
   .then(() => {
     console.log("Data Source has been initialized!");
   })
