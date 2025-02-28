@@ -6,16 +6,12 @@ import { Item } from "./entity/Items";
 import "dotenv/config";
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: process.env.DATABASE_HOST,
-  port: Number(process.env.DATABASE_PORT),
-  username: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  synchronize: false, // 개발 중에는 true로 설정해 자동 동기화
-  logging: true, // 쿼리 로그를 확인하려면 true로 설정
-  entities: [User, Invoice, Item], // 개발 중에는 .ts 사용
-  migrations: ["src/migration/**/*.ts"], // 개발 중에는 .ts 사용
-  subscribers: [],
+  url: process.env.DATABASE_URL,
+  synchronize: false,
+  logging: true,
+  entities: [User, Invoice, Item],
+  migrations: ["src/migration/**/*.ts"],
+  ssl: { rejectUnauthorized: false },
 });
 
 AppDataSource.initialize()
