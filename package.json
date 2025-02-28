@@ -21,10 +21,10 @@
     "typescript": "^5.7.3"
   },
   "scripts": {
-    "start": "nodemon src/index.ts",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
-    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d ./src/data-source.ts",
+    "start": "nodemon -r tsconfig-paths/register src/index.ts",
+    "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:run": "npx ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
+    "migration:revert": "npx ts-node ./node_modules/typeorm/cli.js migration:revert -d ./src/data-source.ts",
     "schema:sync": "npm run typeorm schema:sync -- -d src/data-source.ts",
     "migration:show": "npm run typeorm migration:show -- -d src/data-source.ts",
     "migration:generate": "npm run typeorm migration:generate -- -d src/data-source.ts",

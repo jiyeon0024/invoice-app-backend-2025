@@ -56,8 +56,9 @@ AppDataSource.initialize()
 
     // start express server
     app.listen(process.env.PORT);
+    console.log(process.env.DATABASE_URL);
     console.log(
-      "Express server has started on port 8000. Open http://localhost:8000/users to see results"
+      "Express server has started on port 8080. Open http://localhost:8080/users to see results"
     );
   })
   .catch((error) => console.log(error));
