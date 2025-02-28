@@ -25,9 +25,10 @@
 #     driver: bridge
 
 version: "3"
+
 services:
   backend:
-    image: postgres:alpine
+    build: .
     container_name: invoice-app-backend
     env_file:
       - .env
