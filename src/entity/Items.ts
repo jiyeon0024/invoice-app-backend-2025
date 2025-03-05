@@ -27,4 +27,7 @@ export class Item {
   @ManyToOne(() => Invoice, (invoice) => invoice.items)
   @JoinColumn({ name: "invoiceId", referencedColumnName: "id" })
   invoice: Invoice;
+
+  @Column({ nullable: true })
+  tempColumn: string;
 }

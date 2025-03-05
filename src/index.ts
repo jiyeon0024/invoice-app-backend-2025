@@ -10,55 +10,66 @@ import { authenticateToken } from "./middlewares/authenticateToken";
 
 AppDataSource.initialize()
   .then(async () => {
-    // create express app
     const app = express();
+    const frontendUrl: string =
+      process.env.FRONTEND_URL ||
+      "https://invoice-app-frontend-2025.vercel.app";
+
     app.use(
       cors({
-        origin: "http://localhost:3000", // 프론트엔드 주소
+        origin: frontendUrl,
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true, // 쿠키와 인증 정보 전송 허용
+        credentials: true,
       })
     );
     app.use(bodyParser.json());
 
-    Routes.forEach((route) => {
-      // 로그인 라우터에서는 authenticateToken 미들웨어를 제외
-      const middlewares =
-        route.route === "/login" || route.route === "/signup"
-          ? []
-          : [authenticateToken]; // 로그인 라우터만 제외
+    if (Array.isArray(Routes)) {
+      Routes.forEach((route) => {
+        if (
+          route?.route &&
+          route?.method &&
+          route?.controller &&
+          route?.action
+        ) {
+          const middlewares =
+            route.route === "/login" || route.route === "/signup"
+              ? []
+              : [authenticateToken];
 
-      (app as any)[route.method](
-        route.route,
-        ...middlewares, // 여기에 미들웨어를 추가
-        (req: Request, res: Response, next: Function) => {
-          const controller = new (route.controller as any)();
+          (app as any)[route.method](
+            route.route,
+            ...middlewares,
+            async (req: Request, res: Response, next: Function) => {
+              const controller = new (route.controller as any)();
 
-          const result = controller[route.action](req, res, next);
+              try {
+                const result = await controller[route.action](req, res, next);
 
-          if (result instanceof Promise) {
-            result.then((result) => {
-              if (!res.headersSent) {
-                res.send(CircularJSON.stringify(req.socket));
+                if (
+                  result !== null &&
+                  result !== undefined &&
+                  !res?.headersSent
+                ) {
+                  res.json(result);
+                }
+              } catch (error) {
+                next(error);
               }
-            });
-          } else if (
-            result !== null &&
-            result !== undefined &&
-            !res.headersSent
-          ) {
-            res.json(result);
-          }
+            }
+          );
         }
-      );
-    });
+      });
+    } else {
+      console.error("Routes is not an array or is undefined");
+    }
 
-    // start express server
-    app.listen(process.env.PORT);
+    const port: number = Number(process.env.PORT) || 8080;
     console.log(process.env.DATABASE_URL);
-    console.log(
-      "Express server has started on port 8080. Open http://localhost:8080/users to see results"
-    );
+
+    app.listen(8080, "0.0.0.0", () => {
+      console.log("Server is listening on 0.0.0.0:8080");
+    });
   })
   .catch((error) => console.log(error));

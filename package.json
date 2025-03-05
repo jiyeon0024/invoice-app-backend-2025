@@ -10,17 +10,19 @@
     "nodemon": "^3.1.9",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.14",
+    "ts-node": "^10.9.2",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.8",
     "@types/express": "^5.0.0",
     "@types/node": "^16.11.10",
-    "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.20",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "scripts": {
+    "build": "tsc",
     "start": "nodemon src/index.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
